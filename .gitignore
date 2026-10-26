@@ -1,0 +1,13 @@
+# Case study (not part of the app)
+case-study/
+
+# Reference design images in the project root (app images live in assets/img)
+/*.jpg
+/*.png
+
+# Local / OS files
+.preview/
+.claude/
+Thumbs.db
+desktop.ini
+.DS_Store
