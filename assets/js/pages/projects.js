@@ -73,7 +73,8 @@ function clientOptions() {
   return [...new Set([...(isFresh() ? [] : ['JP Pizza']), ...S().clients.filter((c) => !c.archived).map((c) => c.name), ...S().projects.map((p) => p.client)])];
 }
 const CATEGORIES = ['Social Media Campaign', 'Product Video', 'Model Shoot', 'AI Video', 'Brand Film', 'Event Coverage'];
-const STATUS_OPTS = [['progress', 'In Progress', 'red'], ['new', 'New', 'purple'], ['review', 'In Review', 'green']];
+const WORK_TYPES = ['Social Media Campaign', 'Video Editing', 'Graphic Design', 'Motion Graphics', 'Photography', 'Videography'];
+const STATUS_OPTS = [['progress', 'In Progress', 'primary'], ['new', 'New', 'purple'], ['review', 'In Review', 'green']];
 
 function openProjectDrawer(opts = {}) {
   if (!opts.project && !clientOptions().length) { toast('Add your first client before creating a project'); Actions['new-client'](); return; }
@@ -86,6 +87,8 @@ function openProjectDrawer(opts = {}) {
   const client = opts.client || v.client || '';
   const sel = (name, options, value, ph) => `<select class="select ${value ? 'filled' : ''}" name="${name}">${ph ? `<option value="">${ph}</option>` : ''}${options.map((o) => `<option ${o === value ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select>`;
   const members = S().members;
+  const budget = String(v.budget || '').replace(/\D/g, '');
+  const req = '<span class="req" aria-hidden="true">*</span>';
   const raw = v.raw || 'upload';
   const rawOpt = (k, ic, t, sub) => `<button type="button" class="raw-opt ${raw === k ? 'selected' : ''}" data-action="raw-opt" data-v="${k}">
     ${icon(ic, 22)}<span class="radio">${raw === k ? icon('check', 13, '', 2) : ''}</span><b>${t}</b><small>${sub}</small></button>`;
@@ -97,17 +100,17 @@ function openProjectDrawer(opts = {}) {
       <h3>1. Project Details</h3>
       <div class="fgrid">
         <div class="field full"><label for="pf-name">Project Name</label><input id="pf-name" class="input ${v.title ? 'filled' : ''}" name="title" placeholder="AI Animated Video" value="${esc(v.title || '')}" /></div>
-        <div class="field"><label>Client</label>${sel('client', clientOptions(), client || 'JP Pizza')}</div>
-        <div class="field"><label>Team Member</label>${sel('member', members, v.member || '')}</div>
-        <div class="field"><label>Client</label>${sel('client2', clientOptions(), v.client2 || client || 'JP Pizza')}</div>
-        <div class="field"><label>Team Member</label>${sel('member2', members, v.member2 || members[0])}</div>
+        <div class="field tight"><label>Client ${req}</label>${sel('client', clientOptions(), client || 'JP Pizza')}</div>
+        <div class="field tight"><label>Team Member</label>${sel('member', members, v.member || '')}</div>
         <div class="field"><label>Project Category</label>${sel('category', CATEGORIES, v.category || CATEGORIES[0])}</div>
-        <div class="field"><label>Project Status</label><div class="select-dot"><span class="dot ${STATUS_OPTS.find((s) => s[0] === status)[2]}" id="pf-dot"></span>
+        <div class="field"><label>Project Status ${req}</label><div class="select-dot"><span class="dot ${STATUS_OPTS.find((s) => s[0] === status)[2]}" id="pf-dot"></span>
           <select class="select" name="status" id="pf-status">${STATUS_OPTS.map(([k, l]) => `<option value="${k}" ${k === status ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
-        <div class="field gap-lg"><label>Start Date</label>${dateButton('start', v.start || today)}</div>
-        <div class="field gap-lg"><label>Deadline</label>${dateButton('due', v.due || plus4)}</div>
-        <div class="field full" style="margin-top:8px"><label for="pf-brief">Project Brief</label><textarea id="pf-brief" class="textarea" name="brief" placeholder="Short 60 second cinematic teaser type">${esc(v.brief || '')}</textarea></div>
-        <div class="field full"><span class="lbl">Revision Policy</span>
+        <div class="field"><label>Work Type</label>${sel('workType', WORK_TYPES, v.workType || WORK_TYPES[0])}</div>
+        <div class="field"><label for="pf-budget">Total Budget</label><div class="money-input">${icon('rupee', 16)}<input id="pf-budget" name="budget" inputmode="numeric" autocomplete="off" placeholder="1,000/-" value="${budget ? money(budget) : ''}" /></div></div>
+        <div class="field"><label>Start Date</label>${dateButton('start', v.start || today)}</div>
+        <div class="field"><label>Deadline</label>${dateButton('due', v.due || plus4)}</div>
+        <div class="field full brief"><label for="pf-brief">Project Brief</label><textarea id="pf-brief" class="textarea" name="brief" placeholder="Short 60 second cinematic teaser type">${esc(v.brief || '')}</textarea></div>
+        <div class="field full revision"><span class="lbl">Revision Policy</span>
           <div class="policy">
             <div class="policy-box"><span class="lbl">Included Revision</span>
               <div class="stepper"><button type="button" data-action="rev-step" data-d="1" aria-label="Increase">${icon('plus', 22, '', 1.6)}</button><span id="pf-rev">${v.revTotal ?? 3}</span><button type="button" data-action="rev-step" data-d="-1" aria-label="Decrease"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16"/></svg></button></div>
@@ -137,6 +140,7 @@ function openProjectDrawer(opts = {}) {
     const form = $('#project-form', drawer);
     let files = v.files || [];
     wireDropzone($('#pf-drop', drawer), (list) => { files = list.map((f) => f.name); });
+    $('#pf-budget', drawer).addEventListener('input', (e) => { const n = e.target.value.replace(/\D/g, ''); e.target.value = n ? money(n) : ''; });
     $('#pf-status', drawer).addEventListener('change', (e) => { $('#pf-dot', drawer).className = 'dot ' + STATUS_OPTS.find((s) => s[0] === e.target.value)[2]; });
     const collect = () => ({ ...Object.fromEntries(new FormData(form).entries()), files });
     form._collect = collect;
@@ -149,15 +153,14 @@ function openProjectDrawer(opts = {}) {
       const c = S().clients.find((x) => x.name === d.client);
       const fields = {
         title: d.title.trim(), client: d.client, clientId: c ? c.id : null, logo: c ? c.logo : (S().projects.find((p) => p.client === d.client) || {}).logo || (d.client === 'JP Pizza' ? 'logo-jppizza.png' : initialsAvatar(d.client)),
-        status: d.status, category: d.category, start: d.start, due: d.due, brief: d.brief, revTotal: +d.revTotal, charge: d.charge,
-        member: d.member, member2: d.member2, client2: d.client2, raw: d.raw, rawLink: d.rawLink, files,
-        team: new Set([d.member, d.member2].filter(Boolean)).size || 1,
+        status: d.status, category: d.category, workType: d.workType, budget: +d.budget.replace(/\D/g, ''), start: d.start, due: d.due, brief: d.brief, revTotal: +d.revTotal, charge: d.charge,
+        member: d.member, raw: d.raw, rawLink: d.rawLink, files,
       };
       if (edit) {
         Object.assign(edit, fields, { revUsed: Math.min(edit.revUsed, fields.revTotal) });
         toast('Project updated');
       } else {
-        S().projects.push({ id: uid('p'), spent: 0, budget: 0, paid: 0, revUsed: 0, ...fields });
+        S().projects.push({ id: uid('p'), spent: 0, paid: 0, revUsed: 0, team: 1, ...fields });
         S().drafts = [];
         toast(`${fields.title} created`);
       }
@@ -220,7 +223,7 @@ Pages.project = ({ id, tab = 'deliverable' }) => {
     const raw = { upload: 'Uploaded to MODUS', elsewhere: p.rawLink || 'Stored elsewhere', skip: 'Upload later' }[p.raw || 'upload'];
     body = `<section class="card details-card">
       <h2 class="card-title" style="font-weight:400">Project Details</h2>
-      ${[['Client', p.client], ['Category', p.category || '—'], ['Status', STATUS_LABEL[p.status]], ['Team Member', p.member || '—'], ['Start Date', p.start ? fmtLong(p.start) : '—'], ['Deadline', fmtLong(p.due)],
+      ${[['Client', p.client], ['Category', p.category || '—'], ['Work Type', p.workType || '—'],['Status', STATUS_LABEL[p.status]], ['Team Member', p.member || '—'], ['Start Date', p.start ? fmtLong(p.start) : '—'], ['Deadline', fmtLong(p.due)],
         ['Included Revisions', `${p.revUsed} / ${p.revTotal} used`], ['Over Revision Charge', `${RS} ${p.charge || 500}/- per revision`], ['Raw Files', raw], ['Brief', p.brief || '—']]
         .map(([k, v]) => `<div class="srow"><span>${k}</span><span style="text-align:right">${esc(v)}</span></div>`).join('')}
     </section>`;

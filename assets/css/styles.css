@@ -467,7 +467,7 @@ body.sb-collapsed .sb-label, body.sb-collapsed .sb-studio-name { display: none; 
 .details-card { padding: 25px 21px 28px; margin-top: 26px; max-width: 728px; }
 
 /* ---------- Drawer / forms ---------- */
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.38); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); z-index: 100; animation: fade .2s ease; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.38); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 100; animation: fade .2s ease; }
 .drawer {
   position: fixed; top: 0; right: 0; bottom: 0; width: 742px; max-width: 100%;
   background: var(--page); z-index: 101; overflow-y: auto; animation: slide .25s ease;
@@ -482,7 +482,6 @@ body.sb-collapsed .sb-label, body.sb-collapsed .sb-studio-name { display: none; 
 .fgrid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 33px; }
 .field { display: flex; flex-direction: column; margin-top: 20px; min-width: 0; }
 .field.full { grid-column: 1 / -1; }
-.field.gap-lg { margin-top: 90px; }
 .field > label, .field > .lbl { font-size: 16px; margin-bottom: 10px; }
 .input, .select, .textarea, .datebtn {
   height: 44px; background: #fff; border: 1px solid #8F8F8F; border-radius: 6px; padding: 0 8px;
@@ -524,6 +523,22 @@ body.sb-collapsed .sb-label, body.sb-collapsed .sb-studio-name { display: none; 
 .drawer-foot .cancel { background: #fff; border: 1px solid #8F8F8F; width: 101px; margin-right: auto; }
 .drawer-foot .draft { background: var(--violet-light); color: #fff; width: 110px; }
 .drawer-foot .btn-primary { min-width: 176px; gap: 12px; }
+/* Create / Edit Project drawer spacing (measured from the design) */
+#project-form .drawer-body { padding-top: 87px; padding-bottom: 52px; }
+#project-form .drawer-foot { padding-bottom: 42px; }
+#project-form h2 { font-size: 28px; }
+#project-form h3 { font-size: 22px; }
+#project-form .field { margin-top: 21px; }
+#project-form .field.tight { margin-top: 16px; }
+#project-form .field.brief { margin-top: 10px; }
+#project-form .field.brief > label, #project-form .field.revision > .lbl { margin-bottom: 8px; }
+#project-form .field.revision { margin-top: 17px; }
+#project-form .policy-box { padding-right: 26px; }
+.req { color: var(--trash); }
+.money-input { display: flex; align-items: center; gap: 6px; height: 44px; background: #fff; border: 1px solid #8F8F8F; border-radius: 6px; padding: 0 8px 0 12px; color: #8A8A8A; }
+.money-input:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,55,255,.12); }
+.money-input input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font-size: 16px; font-weight: 300; color: #000; }
+.money-input input::placeholder { color: #8A8A8A; }
 .ferr { color: var(--red); font-size: 12px; margin-top: 6px; }
 .notes-body { font-size: 15px; line-height: 1.7; white-space: pre-line; margin-top: 18px; }
 
@@ -1054,7 +1069,6 @@ body.sb-collapsed .sb-badge { position: absolute; top: 2px; right: 4px; margin: 
   .dl-due { margin-left: 38px; }
   .dtop { flex-wrap: wrap; }
   .fgrid, .policy, .raw-opts { grid-template-columns: 1fr; }
-  .field.gap-lg { margin-top: 20px; }
   .policy { gap: 16px; }
   .page-actions .btn, .hcard-actions .btn { font-size: 14px; }
   .search { width: 100%; margin-right: 0; }
