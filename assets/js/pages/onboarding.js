@@ -211,7 +211,7 @@ Actions['go-back'] = () => (history.length > 1 ? history.back() : (location.hash
 const stepLabel = (n, of) => `<p class="ob-step">Step ${n} of ${of}</p>`;
 
 /* Shared onboarding layout: logo + progress bar, centred column, options, action footer. */
-function obLayout({ step, total, title, sub, key, options, wide, cta, nextStep, hint }) {
+function obLayout({ step, total, title, sub, key, options, wide, cta, nextStep }) {
   const segs = Array.from({ length: total }, (_, i) => `<i class="${i < step ? 'on' : ''}"></i>`).join('');
   return `<div class="ob2">
     <header class="ob2-top">
@@ -225,7 +225,6 @@ function obLayout({ step, total, title, sub, key, options, wide, cta, nextStep, 
         ${sub ? `<p class="ob2-sub">${sub}</p>` : ''}
         <div class="ob2-grid ${wide ? 'wide' : ''}" role="radiogroup" aria-labelledby="ob2-title" data-key="${key}">${options}</div>
         <div class="ob2-foot">
-          <span class="ob2-hint">${hint || 'You can change this later in Settings.'}</span>
           <button class="btn btn-primary ob2-next" data-action="ob-next" data-step="${nextStep}">${cta} ${icon('arrowRight', 18)}</button>
         </div>
       </div>
@@ -243,11 +242,27 @@ function optCard(key, val, ic, title, sub) {
   </button>`;
 }
 
+/* Account-type illustrations, drawn in HTML/CSS so they stay crisp at any size. */
+const MOUNTAIN = '<svg viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true"><path d="M0 44 L30 14 L52 34 L68 22 L100 44 Z" fill="#C9C6F8"/></svg>';
+const ILL_FREELANCER = `<div class="ill">
+  <div class="ill-card ill-doc"><i class="bar"></i><i class="line"></i><i class="box"></i><span class="cursor">${icon('arrowUpLeft', 14, '', 2)}</span></div>
+  <span class="ill-dots"></span>
+  <div class="ill-card ill-video"><div class="head"><i class="bar sm"></i><i class="dot"></i></div><div class="screen">${icon('play', 14)}</div><div class="prog"><i></i></div></div>
+  <span class="ill-dots"></span>
+  <div class="ill-card ill-image"><i class="bar xs"></i><div class="pic"><b class="sun"></b>${MOUNTAIN}</div><span class="ok">${icon('check', 10, '', 2.6)}</span></div>
+</div>`;
+const ILL_CLIENT = `<div class="ill">
+  <div class="ill-card ill-brief"><div class="hd"><i class="chk"></i><span><b>Project Brief</b><small>New Request</small></span></div><div class="up">+ Upload</div><div class="send">Send Brief</div></div>
+  <div class="ill-card ill-team"><div class="hd"><b class="av">JD</b><b class="av">AK</b><span>Team</span></div>
+    <ul><li class="done"><i></i>Planning</li><li class="now"><i></i>In Progress</li><li><i></i>Review</li></ul></div>
+  <div class="ill-card ill-approve"><div class="pic">${MOUNTAIN}<span class="cmt">${icon('messages', 8, '', 2)}2</span></div><div class="ap">Approve Deliverable</div></div>
+</div>`;
+
 Pages.accountType = () => {
-  const card = (val, img, title, text) => {
+  const card = (val, ill, title, text) => {
     const sel = OB.accountType === val;
     return `<button class="ob2-opt ob2-acct ${sel ? 'selected' : ''}" role="radio" aria-checked="${sel}" tabindex="${sel ? 0 : -1}" data-action="ob-pick" data-k="accountType" data-v="${val}">
-      <img src="${IMG}${img}" alt="" />
+      <span class="ob2-ill" aria-hidden="true">${ill}</span>
       <span class="ob2-text"><b>${title}</b><small>${text}</small></span>
       ${radioDot(sel)}
     </button>`;
@@ -258,9 +273,8 @@ Pages.accountType = () => {
       step: 1, total: client ? 2 : 3, key: 'accountType', wide: true, nextStep: 'account', cta: 'Continue',
       title: 'What type of account are you creating?',
       sub: 'This decides what your MODUS workspace looks like.',
-      hint: client ? 'Next, you’ll enter the team code you were sent.' : 'Next, tell us a little about how you work.',
-      options: card('creative', 'account-creative.png', 'I manage creative work', 'For freelancers, editors, designers and creative teams managing clients and deliverables.')
-        + card('client', 'account-client.png', 'I work with creatives', 'For brands and businesses that review, give feedback on and approve creative work.'),
+      options: card('creative', ILL_FREELANCER, 'I’m a Freelancer', 'For freelancers, video editors, designers and creative teams managing projects and clients.')
+        + card('client', ILL_CLIENT, 'I’m a Client', 'For businesses and people who hire creatives, share requirements and review their work.'),
     }),
   };
 };
@@ -270,9 +284,7 @@ Pages.workStyle = () => ({
     step: 2, total: 3, key: 'workStyle', nextStep: 'work', cta: 'Continue',
     title: 'How do you work?', sub: 'We’ll set up your workspace around how you work.',
     options: optCard('workStyle', 'freelancer', 'user', 'Freelancer', 'I work independently')
-      + optCard('workStyle', 'small-team', 'users', 'Small Team', 'I work with a small creative team')
-      + optCard('workStyle', 'agency', 'building', 'Agency', 'I manage projects for multiple clients')
-      + optCard('workStyle', 'studio', 'filmCamera', 'Studio', 'I run a creative studio'),
+      + optCard('workStyle', 'small-team', 'users', 'Small Team', 'I work with a small creative team'),
   }),
 });
 

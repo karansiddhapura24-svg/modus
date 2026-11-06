@@ -1,6 +1,8 @@
 /* Settings: profile, workspace defaults, notifications, data. */
 const PROFESSIONS = [['video-editor', 'Video Editor'], ['videographer', 'Videographer'], ['graphics', 'Graphics Designer'], ['motion', 'Motion Designer']];
-const WORK_STYLES = [['freelancer', 'Freelancer'], ['small-team', 'Small Team'], ['agency', 'Agency'], ['studio', 'Studio']];
+const WORK_STYLES = [['freelancer', 'Freelancer'], ['small-team', 'Small Team']];
+/* Older accounts may still hold a retired work style; keep it selectable so saving doesn't silently change it. */
+const LEGACY_WORK_STYLES = { agency: 'Agency', studio: 'Studio' };
 
 const toggleRow = (name, label, hint, on) => `
   <label class="toggle-row"><span><b>${label}</b>${hint ? `<small>${hint}</small>` : ''}</span>
@@ -20,7 +22,7 @@ Pages.settings = () => {
           <div class="field"><label for="st-name">Full Name</label><input id="st-name" class="input filled" name="name" value="${esc(sess.name || s.user.first)}" /></div>
           <div class="field"><label for="st-email">Email Address</label><input id="st-email" class="input filled" type="email" name="email" value="${esc(sess.email || '')}" placeholder="you@example.com" /></div>
           <div class="field"><label for="st-prof">Profession</label><select id="st-prof" class="select filled" name="profession">${opt(PROFESSIONS, sess.profession || 'video-editor')}</select></div>
-          <div class="field"><label for="st-work">How you work</label><select id="st-work" class="select filled" name="workStyle">${opt(WORK_STYLES, sess.workStyle || 'freelancer')}</select></div>
+          <div class="field"><label for="st-work">How you work</label><select id="st-work" class="select filled" name="workStyle">${opt(LEGACY_WORK_STYLES[sess.workStyle] ? [...WORK_STYLES, [sess.workStyle, LEGACY_WORK_STYLES[sess.workStyle]]] : WORK_STYLES, sess.workStyle || 'freelancer')}</select></div>
         </div>
       </section>
       <section class="card set-card">
