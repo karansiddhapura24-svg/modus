@@ -242,21 +242,77 @@ function optCard(key, val, ic, title, sub) {
   </button>`;
 }
 
-/* Account-type illustrations, drawn in HTML/CSS so they stay crisp at any size. */
-const MOUNTAIN = '<svg viewBox="0 0 100 44" preserveAspectRatio="none" aria-hidden="true"><path d="M0 44 L30 14 L52 34 L68 22 L100 44 Z" fill="#C9C6F8"/></svg>';
-const ILL_FREELANCER = `<div class="ill">
-  <div class="ill-card ill-doc"><i class="bar"></i><i class="line"></i><i class="box"></i><span class="cursor">${icon('arrowUpLeft', 14, '', 2)}</span></div>
-  <span class="ill-dots"></span>
-  <div class="ill-card ill-video"><div class="head"><i class="bar sm"></i><i class="dot"></i></div><div class="screen">${icon('play', 14)}</div><div class="prog"><i></i></div></div>
-  <span class="ill-dots"></span>
-  <div class="ill-card ill-image"><i class="bar xs"></i><div class="pic"><b class="sun"></b>${MOUNTAIN}</div><span class="ok">${icon('check', 10, '', 2.6)}</span></div>
-</div>`;
-const ILL_CLIENT = `<div class="ill">
-  <div class="ill-card ill-brief"><div class="hd"><i class="chk"></i><span><b>Project Brief</b><small>New Request</small></span></div><div class="up">+ Upload</div><div class="send">Send Brief</div></div>
-  <div class="ill-card ill-team"><div class="hd"><b class="av">JD</b><b class="av">AK</b><span>Team</span></div>
-    <ul><li class="done"><i></i>Planning</li><li class="now"><i></i>In Progress</li><li><i></i>Review</li></ul></div>
-  <div class="ill-card ill-approve"><div class="pic">${MOUNTAIN}<span class="cmt">${icon('messages', 8, '', 2)}2</span></div><div class="ap">Approve Deliverable</div></div>
-</div>`;
+/* Account-type illustrations (inline SVG, crisp at any size).
+   Freelancer: a creative at their desk editing, with an invoice going out.
+   Client: a business owner reviewing a deliverable and approving it. */
+const ILL_FREELANCER = `<svg viewBox="0 0 400 200" role="img" aria-label="A freelancer editing a video at their desk">
+  <defs><filter id="ilsF" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#1E2050" flood-opacity=".1"/></filter></defs>
+  <circle cx="200" cy="108" r="80" fill="#ECEBFB"/>
+  <rect x="60" y="152" width="280" height="7" rx="3.5" fill="#D9DAEE"/>
+  <rect x="92" y="134" width="18" height="18" rx="3" fill="#DADCF5"/>
+  <ellipse cx="96" cy="124" rx="5" ry="11" transform="rotate(-20 96 124)" fill="#7ED3A5"/>
+  <ellipse cx="106" cy="122" rx="5" ry="12" transform="rotate(18 106 122)" fill="#55B89B"/>
+  <path d="M158 152 C158 121 176 107 200 107 C224 107 242 121 242 152 Z" fill="#6D5BFF"/>
+  <path d="M186 109 Q200 123 214 109" fill="none" stroke="#5A4BFF" stroke-width="3" stroke-linecap="round"/>
+  <rect x="194" y="96" width="12" height="13" rx="3" fill="#E9B996"/>
+  <circle cx="200" cy="82" r="17" fill="#F3CBA7"/>
+  <path d="M183 81 C182 65 194 59 204 60 C214 61 219 69 217 81 C212 73 203 71 196 73 C190 75 186 78 183 81 Z" fill="#2B2350"/>
+  <path d="M181 85 C180 61 220 61 219 85" fill="none" stroke="#1F1A3D" stroke-width="4" stroke-linecap="round"/>
+  <rect x="176" y="80" width="8" height="14" rx="4" fill="#1F1A3D"/><rect x="216" y="80" width="8" height="14" rx="4" fill="#1F1A3D"/>
+  <rect x="160" y="119" width="80" height="34" rx="4" fill="#C9C6F8"/>
+  <circle cx="200" cy="136" r="5" fill="#fff" opacity=".85"/>
+  <rect x="148" y="151" width="104" height="5" rx="2.5" fill="#B8B4F2"/>
+  <rect x="272" y="137" width="14" height="15" rx="3" fill="#8B84F5"/>
+  <path d="M286 141 h3 a3.5 3.5 0 0 1 0 7 h-3" fill="none" stroke="#8B84F5" stroke-width="2"/>
+  <path d="M276 132 q-2 -4 0 -7 M282 132 q-2 -4 0 -7" fill="none" stroke="#C9C6F8" stroke-width="1.5" stroke-linecap="round"/>
+  <g transform="translate(36 34)" filter="url(#ilsF)">
+    <rect width="122" height="66" rx="8" fill="#fff"/>
+    <rect x="8" y="8" width="106" height="30" rx="5" fill="#EEF0F8"/>
+    <path d="M56 15 L66 23 L56 31 Z" fill="#8B84F5"/>
+    <rect x="8" y="46" width="30" height="7" rx="3.5" fill="#8B84F5"/><rect x="41" y="46" width="22" height="7" rx="3.5" fill="#55B89B"/>
+    <rect x="66" y="46" width="26" height="7" rx="3.5" fill="#E39A87"/><rect x="95" y="46" width="19" height="7" rx="3.5" fill="#C9C6F8"/>
+    <rect x="58" y="42" width="2" height="16" rx="1" fill="#4F37FF"/>
+  </g>
+  <g transform="translate(258 40)" filter="url(#ilsF)">
+    <rect width="108" height="44" rx="8" fill="#fff"/>
+    <circle cx="18" cy="22" r="10" fill="#E3F6EC"/><path d="M13 22 l4 4 l7 -8" fill="none" stroke="#069D4C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="34" y="19" font-family="Poppins, sans-serif" font-size="9" font-weight="600" fill="#111827">Invoice sent</text>
+    <text x="34" y="32" font-family="Poppins, sans-serif" font-size="8.5" fill="#6B7280">₹4,500 · Reel 03</text>
+  </g>
+</svg>`;
+const ILL_CLIENT = `<svg viewBox="0 0 400 200" role="img" aria-label="A client reviewing and approving creative work">
+  <defs><filter id="ilsC" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#1E2050" flood-opacity=".1"/></filter></defs>
+  <circle cx="236" cy="108" r="80" fill="#ECEBFB"/>
+  <rect x="80" y="160" width="270" height="6" rx="3" fill="#D9DAEE"/>
+  <path d="M206 162 C206 129 226 113 250 113 C274 113 294 129 294 162 Z" fill="#2E2A5A"/>
+  <path d="M239 114 L250 134 L261 114 Z" fill="#fff"/>
+  <path d="M248 120 L252 120 L254 141 L250 147 L246 141 Z" fill="#8B84F5"/>
+  <rect x="244" y="100" width="12" height="15" rx="3" fill="#C68E6B"/>
+  <circle cx="250" cy="86" r="17" fill="#D9A07B"/>
+  <path d="M233 85 C232 69 244 63 252 63 C262 63 268 70 267 83 C262 75 254 73 247 74 C240 75 236 79 233 85 Z" fill="#3A2A20"/>
+  <rect x="222" y="126" width="56" height="38" rx="4" fill="#1F1A3D"/>
+  <rect x="226" y="130" width="48" height="30" rx="2" fill="#ECEEF8"/>
+  <path d="M226 160 L240 145 L250 154 L258 148 L274 160 Z" fill="#C9C6F8"/>
+  <circle cx="223" cy="156" r="5.5" fill="#D9A07B"/><circle cx="277" cy="156" r="5.5" fill="#D9A07B"/>
+  <rect x="306" y="142" width="28" height="19" rx="3" fill="#8B84F5"/>
+  <path d="M314 142 v-4 h12 v4" fill="none" stroke="#8B84F5" stroke-width="2.5"/>
+  <g transform="translate(34 30)" filter="url(#ilsC)">
+    <rect width="136" height="92" rx="8" fill="#fff"/>
+    <rect x="8" y="8" width="120" height="46" rx="5" fill="#ECEEF8"/>
+    <path d="M8 54 L42 26 L66 46 L84 34 L128 54 Z" fill="#C9C6F8"/>
+    <circle cx="68" cy="31" r="10" fill="#4F37FF"/><path d="M65 26 L73 31 L65 36 Z" fill="#fff"/>
+    <rect x="8" y="64" width="58" height="20" rx="5" fill="#4F37FF"/>
+    <text x="37" y="77.5" text-anchor="middle" font-family="Poppins, sans-serif" font-size="8.5" font-weight="600" fill="#fff">Approve</text>
+    <rect x="70" y="64" width="58" height="20" rx="5" fill="#EEF0F8"/>
+    <text x="99" y="77.5" text-anchor="middle" font-family="Poppins, sans-serif" font-size="8.5" font-weight="500" fill="#4338CA">Changes</text>
+  </g>
+  <circle cx="168" cy="32" r="10" fill="#069D4C"/><path d="M163 32 l4 4 l7 -8" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(284 44)" filter="url(#ilsC)">
+    <rect width="86" height="30" rx="9" fill="#fff"/>
+    <path d="M14 30 L10 38 L22 30 Z" fill="#fff"/>
+    <text x="12" y="19" font-family="Poppins, sans-serif" font-size="9" font-weight="500" fill="#111827">Looks great! 👍</text>
+  </g>
+</svg>`;
 
 Pages.accountType = () => {
   const card = (val, ill, title, text) => {

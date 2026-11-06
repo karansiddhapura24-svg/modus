@@ -657,49 +657,7 @@ body.sb-collapsed .sb-label, body.sb-collapsed .sb-studio-name { display: none; 
 .ob2-acct .ob2-radio { top: 37px; right: 37px; transform: none; width: 26px; height: 26px; border: 2px solid #C9CCD3; background: #fff; }
 .ob2-acct.selected .ob2-radio { top: 36px; right: 36px; }
 .ob2-ill { display: flex; align-items: center; justify-content: center; height: 207px; border-radius: 14px; background: #F6F7FB; overflow: hidden; }
-.ill { display: flex; align-items: center; gap: 26px; }
-.ill-card { position: relative; background: #fff; border-radius: 8px; box-shadow: 0 4px 14px rgba(30, 32, 80, .08); padding: 12px; display: flex; flex-direction: column; gap: 8px; }
-.ill-card i, .ill-card b { display: block; font-style: normal; }
-.ill-card .bar { width: 48px; height: 9px; border-radius: 5px; background: #8B84F5; }
-.ill-card .bar.sm { width: 32px; height: 7px; }
-.ill-card .bar.xs { width: 28px; height: 7px; }
-.ill-card .line { width: 86px; height: 6px; border-radius: 3px; background: #E8EAF1; }
-.ill-card .box { width: 86px; height: 30px; border-radius: 6px; background: #EEF0F5; }
-.ill-dots { width: 10px; height: 2px; background: radial-gradient(circle, #C7CAD6 1px, transparent 1.2px) 0 0 / 5px 2px; margin: 0 -14px; }
-.ill-doc { width: 110px; height: 88px; box-sizing: border-box; }
-.ill-doc .cursor { position: absolute; right: -6px; bottom: -8px; color: #5A4BFF; }
-.ill-video { width: 126px; box-sizing: border-box; }
-.ill-video .head { display: flex; justify-content: space-between; align-items: center; }
-.ill-video .dot { width: 7px; height: 7px; border-radius: 50%; background: #E3E5EC; }
-.ill-video .screen { height: 48px; border-radius: 6px; background: #EEF0F8; display: flex; align-items: center; justify-content: center; color: #8B84F5; }
-.ill-video .prog { height: 4px; border-radius: 2px; background: #DADCF5; }
-.ill-video .prog i { width: 68%; height: 100%; border-radius: 2px; background: #6D5BFF; }
-.ill-image { width: 112px; box-sizing: border-box; padding-bottom: 26px; }
-.ill-card .pic { position: relative; height: 48px; border-radius: 6px; background: #ECEEF8; overflow: hidden; }
-.ill-card .pic > svg { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 30px; }
-.ill-card .pic .sun { position: absolute; right: 16px; top: 8px; width: 11px; height: 11px; border-radius: 50%; background: #8B84F5; }
-.ill-image .ok { position: absolute; right: 12px; bottom: 6px; width: 16px; height: 16px; border-radius: 50%; background: #5A4BFF; color: #fff; display: flex; align-items: center; justify-content: center; }
-.ill-brief, .ill-team, .ill-approve { gap: 7px; font-size: 7px; color: #6B7280; }
-.ill-brief { width: 113px; box-sizing: border-box; }
-.ill-card .hd { display: flex; align-items: center; gap: 5px; }
-.ill-card .hd b { color: #111827; font-size: 8.5px; font-weight: 600; }
-.ill-card .hd small { display: block; font-size: 6.5px; color: #9CA3AF; }
-.ill-brief .chk { width: 13px; height: 13px; border-radius: 3px; background: #E8EAF1; }
-.ill-brief .up { height: 22px; border: 1px dashed #D3D6DF; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #9CA3AF; }
-.ill-brief .send { height: 15px; border-radius: 4px; background: #8B84F5; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 600; }
-.ill-team { width: 123px; box-sizing: border-box; }
-.ill-team .hd { padding-bottom: 6px; border-bottom: 1px solid #EEF0F4; }
-.ill-team .hd .av { width: 16px; height: 16px; border-radius: 50%; background: #E7E6FB; color: #4338CA; font-size: 6.5px; display: flex; align-items: center; justify-content: center; }
-.ill-team .hd span { font-size: 7.5px; color: #374151; font-weight: 500; }
-.ill-team ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-.ill-team li { display: flex; align-items: center; gap: 6px; }
-.ill-team li i { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid #D1D5DB; box-sizing: border-box; }
-.ill-team li.done i { border-color: #6D5BFF; background: #6D5BFF; }
-.ill-team li.now { color: #4F37FF; font-weight: 600; }
-.ill-team li.now i { border-color: #4F37FF; box-shadow: inset 0 0 0 1.5px #fff; background: #4F37FF; }
-.ill-approve { width: 128px; box-sizing: border-box; }
-.ill-approve .cmt { position: absolute; right: 5px; top: 5px; background: #fff; border-radius: 4px; padding: 2px 4px; display: flex; align-items: center; gap: 2px; font-size: 7px; color: #374151; }
-.ill-approve .ap { height: 15px; border-radius: 4px; background: #E6E8FB; color: #4338CA; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+.ob2-ill svg { display: block; width: 100%; height: 100%; max-width: 460px; }
 .ob2-foot { display: flex; align-items: center; justify-content: flex-end; gap: 16px; margin-top: 57px; }
 .ob2-next { height: 44px; padding: 0 28px; border-radius: 8px; font-size: 15px; font-weight: 500; gap: 10px; }
 
@@ -1089,7 +1047,6 @@ body.sb-collapsed .sb-badge { position: absolute; top: 2px; right: 4px; margin: 
   .ob2-acct.selected { padding: 13px 13px 17px; }
   .ob2-acct .ob2-radio { top: 24px; right: 24px; }
   .ob2-ill { height: 150px; }
-  .ob2-ill .ill { transform: scale(.68); }
   .ob2-foot { position: sticky; bottom: 0; margin: 24px -20px 0; padding: 14px 20px 18px; background: #fff; border-top: 1px solid #EEF0F4; }
   .ob2-next { width: 100%; justify-content: center; }
   .chat { grid-template-columns: minmax(0, 1fr); height: calc(100vh - 81px - 120px); }
